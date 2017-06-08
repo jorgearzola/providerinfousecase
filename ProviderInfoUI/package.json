@@ -1,0 +1,16 @@
+{
+  "name": "providerinfoui",
+  "version": "1.0.0",
+  "description": "provider info",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jorge Arzola",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1",
+    "jquery-ui": "^1.12.1"
+  }
+}

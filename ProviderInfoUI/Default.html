@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="tabulator/css/tabulator.min.css" rel="stylesheet" />
+    
+    <script src="node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="tabulator/ui/jquery-ui.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="tabulator/js/tabulator.min.js" type="text/javascript"></script>
+    <script src="vm/providerinfovm.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Provider Search</h3>
+            <form>
+
+                <div class="form-group">
+                    <label for="federal_provider_number">Provider Number</label>
+                    <input type="text" class="form-control" name="federal_provider_number" id="federal_provider_number" placeholder="provider number">
+                </div>
+                <div class="form-group">
+                    <label for="provider_zip_code">Provider Zip Code</label>
+                    <input type="text" class="form-control" name="provider_zip_code" id="provider_zip_code" placeholder="provider zip code">
+                </div>
+                <div class="form-group">
+                    <label for="provider_name">Provider Name - (Zip Code & Provider Number will be ignored)</label>
+                    <input type="text" class="form-control" name="provider_name" id="provider_name" placeholder="provider name">
+                </div>
+                <button type="button" onclick="GetProviderData()" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="providerinfo"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('#providerinfo').tabulator({
+        fitColumns: true,
+        tooltips: true,
+        addRowPos: "top",
+        pagination: "local",
+        paginationSize: 50,
+        movableColumns: true,
+        sortBy: "federal_provider_number",
+        sortDir: "asc",
+        columns: [
+            { title: "Provider Number", field: "federal_provider_number", sorter: "string" },
+            { title: "Name", field: "provider_name", sorter: "string", width: 200, editor: true },
+            { title: "Phone Number", field: "provider_phone_number", sorter: "number", align: "right", formatter:
+                function (cell, formatterParams) {
+                    var text = cell.getValue();
+                    text = text.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+                    return text;
+                }
+            },
+            { title: "Address", field: "provider_address", sorter: "string" },
+            { title: "City", field: "provider_city", sorter: "string" },
+            { title: "State", field: "provider_state", sorter: "string" },
+            { title: "Zip", field: "provider_zip_code", sorter: "number", align: "center", width: 100 },
+        ],
+    });
+    function GetProviderData() {
+        var pi = new providerInfoVM();
+        if (pi.isNumeric(pi.ProviderInfo.provider_zip_code)) {
+            //if false then lets send something back to the user
+            //TODO: implement client validation - not in scope for this iteration
+        }
+
+        if (pi.ProviderInfo.provider_name != "") {
+            pi.ProviderInfo.provider_zip_code = '';
+            pi.ProviderInfo.federal_provider_number = '';
+        }
+
+        $.get({
+            url: "http://localhost:52706/getprovider",
+            type: 'POST',
+            data: pi.ProviderInfo,
+            dataType: 'json',
+            success: function (result) {
+                $('#providerinfo').tabulator("setData", result.providerInfo);
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR);
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -5,6 +5,6 @@ namespace ProviderInfoService.Interface
 {
     public interface IProviderInfoRepository : IRepository<ProviderInfo>
     {
-        IEnumerable<ProviderInfo> GetProviderInfo(string value);
+        IEnumerable<ProviderInfo> Get(int limit, Dictionary<string, string> paramList);
     }
 }

@@ -6,61 +6,47 @@ using ProviderInfoService.Interface;
 using RestSharp;
 using System.Net;
 using System.IO;
+using System.Linq;
 
 namespace ProviderInfoService.Respository
 {
     public class ProviderInfoRepository : IProviderInfoRepository
     {
-        public IEnumerable<ProviderInfo> Get(int limit)
+        
+        public IEnumerable<ProviderInfo> Get(int limit, Dictionary<string, string> paramList)
         {
-            //var client = new RestClient();
+            var client = new RestClient();
+            client.BaseUrl = new Uri("https://data.medicare.gov");
+            var request = new RestRequest();
 
-            //client.BaseUrl = new Uri("https://data.medicare.gov");
+            AddParameters(paramList, ref request);
 
-            //var request = new RestRequest();
-            //request.Method = Method.GET;
-            //request.Resource = "resource/b27b-2uc7.json";
-            //IRestResponse response = client.Execute(request);
-
-            //var list = JsonConvert.DeserializeObject<IEnumerable<ProviderInfo>>(response.Content);
-
-            //return list;
-
-            WebRequest request = WebRequest.Create(
-              "https://data.medicare.gov/resource/b27b-2uc7.json");
-            // If required by the server, set the credentials.  
-            //request.Credentials = CredentialCache.DefaultCredentials;
-            // Get the response. 
-
-            //ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
-
-            WebResponse response = request.GetResponse();
-            // Display the status.  
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-            // Get the stream containing content returned by the server.  
-            Stream dataStream = response.GetResponseStream();
-            // Open the stream using a StreamReader for easy access.  
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.  
-            string responseFromServer = reader.ReadToEnd();
-            // Display the content.  
-            Console.WriteLine(responseFromServer);
-            // Clean up the streams and the response.  
-            reader.Close();
-            response.Close();
-
-            return new List<ProviderInfo>();
-
+            request.Method = Method.GET;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            request.Resource = "resource/b27b-2uc7.json?$limit=" + limit;
+            IRestResponse response = client.Execute(request);
+            var list = JsonConvert.DeserializeObject<IEnumerable<ProviderInfo>>(response.Content);
+            return list;
         }
 
-        public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+        private void AddParameters(Dictionary<string, string> paramList, ref RestRequest request)
         {
-            return true;
-        }
-
-        public IEnumerable<ProviderInfo> GetProviderInfo(string value)
-        {
-            throw new System.NotImplementedException();
+            foreach (KeyValuePair<string, string> paramItem in paramList)
+            {
+                if (!string.IsNullOrEmpty(paramItem.Value))
+                {
+                    //lets support full text search
+                    if (paramItem.Key == "provider_name")
+                    {
+                        request.AddParameter("$q", paramItem.Value);
+                    }
+                    else
+                    {
+                        request.AddParameter(paramItem.Key, paramItem.Value);
+                    }
+                    
+                }
+            }
         }
     }
 }

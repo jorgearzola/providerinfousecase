@@ -4,6 +4,6 @@ namespace ProviderInfoService.Interface
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> Get(int limit);
+        IEnumerable<T> Get(int limit, Dictionary<string, string> paramList);
     }
 }

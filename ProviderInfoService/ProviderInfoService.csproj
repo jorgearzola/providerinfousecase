@@ -48,11 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\ProviderInfoBusiness.cs" />
     <Compile Include="Interface\IProviderInfoRepository.cs" />
     <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Interface\IRequest.cs" />
     <Compile Include="Interface\IResponse.cs" />
-    <Compile Include="ProviderInfoEndPoints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Respository\ProviderInfoRepository.cs" />
   </ItemGroup>
@@ -64,6 +64,9 @@
       <Project>{d711078b-5b1e-4381-9bf5-fc83ac0dbc91}</Project>
       <Name>ProviderInfoModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
