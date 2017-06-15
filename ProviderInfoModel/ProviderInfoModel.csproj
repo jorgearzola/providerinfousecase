@@ -43,6 +43,8 @@
     <Compile Include="ProviderInfoRequest.cs" />
     <Compile Include="ProviderInfo.cs" />
     <Compile Include="ProviderInfoResponse.cs" />
+    <Compile Include="SFDocument.cs" />
+    <Compile Include="SFUser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
