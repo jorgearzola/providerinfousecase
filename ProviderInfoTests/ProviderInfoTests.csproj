@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="ProviderInfoServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SFDocumentTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProviderInfoModel\ProviderInfoModel.csproj">
@@ -54,6 +55,12 @@
       <Project>{576bab0c-6399-4de3-a3b8-4db9c334a125}</Project>
       <Name>ProviderInfoService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -43,7 +43,6 @@ namespace ProviderInfoService.Respository
                 sessionId = lr.sessionId;
                 serverUrl = lr.serverUrl;
 
-
                 //set endpoint url
                 endpoint = new EndpointAddress(serverUrl);
 
