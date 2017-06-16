@@ -14,6 +14,7 @@ List of items that will require additional time and effort.
 * Presentation Framework i.e. Angular - A full implementation of a presentation framework is out of scope in this task. But based on the potential scalability of document mangement a UI framework would be beneficial and it can also provide with additional tools to manage components
 * Interface/DI - The application can also benefit from the implementation of a DI pattern and library, as there are numerous objects that are dependent on a concrete objects, and it will help with scalability and the open/closed principle
 * Test Cases - A Test project has been added with one test case to showcase the approach.
+* Additional validation can also be added to the form
 
 Additional idea for the current project.
 
