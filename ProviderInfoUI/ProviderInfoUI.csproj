@@ -1075,6 +1075,7 @@
     <Content Include="tabulator\ui\jquery-ui.theme.min.css" />
     <Content Include="tabulator\ui\LICENSE.txt" />
     <Content Include="vm\providerinfovm.js" />
+    <Content Include="vm\sfdocumentvm.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

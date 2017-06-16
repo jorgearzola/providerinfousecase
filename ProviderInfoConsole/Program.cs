@@ -33,7 +33,7 @@ namespace ProviderInfoConsole
             sfDoc.User = new SFUser() { Username = "jarzola@gmail.com", Password = "Wu?ewr5Teb" };
             SFDocumentsRepository repo = new SFDocumentsRepository(sfDoc);
 
-            repo.UploadDocument();
+            repo.Upload();
 
 
         }

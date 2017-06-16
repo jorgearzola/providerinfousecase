@@ -13,9 +13,25 @@
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="tabulator/js/tabulator.min.js" type="text/javascript"></script>
     <script src="vm/providerinfovm.js"></script>
+    <script src="vm/sfdocumentvm.js"></script>
 </head>
 <body>
 <div class="container">
+    
+    <div class="row">
+        <div class="col-md-8">
+            <h4>Upload Document</h4>
+            <form id="upload-form">
+                <fieldset>
+                    <input type="file" name="Document" id="Document">
+                    <input type="button" value="Upload" onclick="upload()">
+                    <hr>
+                    
+                </fieldset>
+            </form>
+            <progress style="display: none;"></progress>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-8">
             <h3>Provider Search</h3>
@@ -46,6 +62,45 @@
 </div>
 
 <script type="text/javascript">
+
+    $('#Document').on('change', function() {
+        var myfile = "";
+        myfile = $('#Document').val();
+        var ext = myfile.split('.').pop();
+        //allow only pdf word and png files to be uploaded
+        if (ext !== "pdf" && ext !== "docx" && ext !== "doc" && ext !== "png") {
+            alert(ext + " not allowed.");
+            $('#Document').val("");
+            return;
+        }
+    });
+
+
+    //this function can be part of the view model that will communicate with the REST service
+    var upload = function () {
+
+
+        //do not process if there is no file
+        if ($('#Document').val() === "") {
+            return;
+        }
+
+        $.ajax({
+            
+            url: 'http://localhost:52706/upload',
+            type: 'POST',
+            data: new FormData($('#upload-form')[0]),
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (data, textStatus, jqXHR) {
+                console.log(data);
+                console.log(jqXHR);
+            }
+        });
+        return false;
+    };
 
     $('#providerinfo').tabulator({
         fitColumns: true,

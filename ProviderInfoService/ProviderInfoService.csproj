@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\ProviderInfoBusiness.cs" />
+    <Compile Include="Business\SFDocumentBusiness.cs" />
     <Compile Include="Interface\IProviderInfoRepository.cs" />
     <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Interface\IRequest.cs" />
